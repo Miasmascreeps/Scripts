@@ -1,0 +1,34 @@
+HeartbeatConnections = HeartbeatConnections or {}
+CharacterAddedConnections = CharacterAddedConnections or {}
+local LocalPlayer = game:GetService("Players").LocalPlayer
+
+if HeartbeatConnections["Dash"] then
+    HeartbeatConnections["Dash"]:Disconnect()
+    HeartbeatConnections["Dash"] = nil
+end
+if CharacterAddedConnections["Dash"] then
+    CharacterAddedConnections["Dash"]:Disconnect()
+    CharacterAddedConnections["Dash"] = nil
+end
+if CharacterAddedConnections["DashFix"] then
+    CharacterAddedConnections["DashFix"]:Disconnect()
+    CharacterAddedConnections["DashFix"] = nil
+end
+
+if enabled then
+    local function setupInstantDash()
+        local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+        local hum = char:WaitForChild("Humanoid")
+        local animator = hum:WaitForChild("Animator")
+        
+        CharacterAddedConnections["Dash"] = animator.AnimationPlayed:Connect(function(track)
+            if track.Animation.AnimationId == "rbxassetid://10480793962" or track.Animation.AnimationId == "rbxassetid://10480796021" then
+                task.wait(0.2)
+                track:Stop()
+            end
+        end)
+    end
+    
+    setupInstantDash()
+    CharacterAddedConnections["DashFix"] = LocalPlayer.CharacterAdded:Connect(setupInstantDash)
+end

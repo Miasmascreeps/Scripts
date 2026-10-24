@@ -1,0 +1,3 @@
+workspace:SetAttribute("VIPServer", tostring(game.Players.LocalPlayer.UserId))
+			workspace:SetAttribute("VIPServerOwner", game.Players.LocalPlayer.Name)
+			workspace:SetAttribute("NoDashCooldown", true)
